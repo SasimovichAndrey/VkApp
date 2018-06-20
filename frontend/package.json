@@ -6,5 +6,6 @@
   "devDependencies": {},
   "scripts": {
     "serve": "ws"
-  }
+  },
+  "dependencies": {}
 }
