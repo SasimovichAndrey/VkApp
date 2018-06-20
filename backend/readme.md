@@ -1,9 +1,21 @@
-Step into *"backend"* folder
+Api part of application created with Symfony 4
+
+**Requirements**
+
+    php 7.2
+
+**How to run** 
+
+    Step into backend folder
 
 Make sure that you've installed composer
 
-Install dependencies using **"composer install"** command
+Install dependencies using:
 
-Start built-in php webserver using **"php bin/console server:run"**
+    composer install
+
+Start built-in php web server using:
+ 
+    php bin/console server:run
 
 Test server should be ready at **localhost:8000** 
