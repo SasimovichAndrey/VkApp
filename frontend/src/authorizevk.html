@@ -1,8 +1,41 @@
 vk authorized
 <script src="js/utility.js"></script>
+<script src="js/constants.js"></script>
 <script>
     var accessToken = findLocationHashParameter('access_token')
+    var userId = findLocationHashParameter('user_id')
     localStorage.setItem('vk_access_token', accessToken);
+    localStorage.setItem('user_id', userId);
 
-    location.assign(location.origin)
+    getUserFriends(saveUserFriendsToDb);
+
+    function saveUserFriendsToDb(userId, friendIds){
+        var reqBody = {
+            userId: userId,
+            friendIds: friendIds
+        };
+        var reqBodyJson = JSON.stringify(reqBody);
+
+        var backendRequest = new XMLHttpRequest();
+        backendRequest.open('POST', `${BACKEND_API_URL}/addUserFriends`);
+        backendRequest.setRequestHeader('Content-Type', 'application/json');
+        backendRequest.send(reqBodyJson);
+
+        backendRequest.onreadystatechange = () => {
+            if(backendRequest.status == 200){
+                location.assign(location.origin);
+            }
+        }
+    }
+    
+    function getUserFriends(callback){
+        var callbackFuncName = 'getUserFriendsCallback';
+        window[callbackFuncName]= (result) => {
+            callback(userId, result.response.items);
+        }
+        var script = document.createElement('SCRIPT'); 
+        script.src = `https://api.vk.com/method/friends.get?&v=${VK_API_VERSION}&callback=${callbackFuncName}&access_token=${accessToken}`; 
+        document.getElementsByTagName("head")[0].appendChild(script); 
+    }
+
 </script>
