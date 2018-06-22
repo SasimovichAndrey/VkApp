@@ -1,1 +1,8 @@
 vk authorized
+<script src="js/utility.js"></script>
+<script>
+    var accessToken = findLocationHashParameter('access_token')
+    localStorage.setItem('vk_access_token', accessToken);
+
+    location.assign(location.origin)
+</script>
