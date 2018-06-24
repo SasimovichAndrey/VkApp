@@ -10,7 +10,25 @@
     <script src="js/constants.js"></script>
 </head>
 <body>
-    <a href="https://oauth.vk.com/authorize?client_id=6608257&display=page&redirect_uri=http://localhost:44123/authorizevk.html&scope=friends&response_type=token&v=5.80">Авторизовать vk</a>
+    <div id="app">
+        <div v-if="!isAuthorized">
+            <a href="https://oauth.vk.com/authorize?client_id=6608257&display=page&redirect_uri=http://localhost:44123/authorizevk.html&scope=friends&response_type=token&v=5.80">Авторизовать vk</a>
+        </div>
+    
+        <div v-if="isFetchingFriends && isAuthorized">
+            Loading friends list...
+        </div>
+    
+        <div v-if="!isFetchingFriends && isAuthorized">
+            <div v-for="friend in friends">
+                <a v-bind:href="'https://vk.com/id'+friend.id">{{friend.first_name}} {{friend.last_name}}</a>
+                <input v-if="!isFetchingSelectedFriends" type="checkbox" v-model="selectedFriends" v-bind:value="friend.id"/>
+            </div>
+            <div class="friend-list-controls">
+                <input type="button" v-on:click="saveSelectedUsers" value="Сохранить"/>
+            </div>
+        </div>
+    </div>
 
     <script src="js/main.js"></script>
 </body>
